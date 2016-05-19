@@ -24,7 +24,15 @@ namespace TestOne
             }
 
             // Display List
-            
+            posts.ForEach(Print);
+        }
+
+        private static void Print(Post p)
+        {
+            Console.WriteLine(p.Title);
+            Console.WriteLine(p.Description);
+            Console.WriteLine(p.PostTime);
+            Console.WriteLine(" ");
         }
     }
 }
