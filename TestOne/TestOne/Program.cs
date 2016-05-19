@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Xml;
 
 namespace TestOne
 {
@@ -18,29 +22,46 @@ namespace TestOne
         {
             var posts = new List<Post>();
 
-            for(var i = 0; i < 10; i++)
+            var rssXmlDoc = new XmlDocument();
+
+            rssXmlDoc.Load("http://main.planbgaming.com/feed/");
+            var rssNodes = rssXmlDoc.SelectNodes("rss/channel/item");
+
+            foreach(XmlNode rssNode in rssNodes)
             {
-                var nonZeroDigit = i + 1;
+                var rssSubNode = rssNode.SelectSingleNode("title");
+                var title = rssSubNode?.InnerText ?? "";
+
+                rssSubNode = rssNode.SelectSingleNode("description");
+                var description = rssSubNode?.InnerText ?? "";
+
+                rssSubNode = rssNode.SelectSingleNode("link");
+                var url = rssSubNode?.InnerText ?? "";
+
+                rssSubNode = rssNode.SelectSingleNode("pubDate");
+                var date = rssSubNode?.InnerText ?? "";
 
                 var post = new Post
                 {
-                    Title = $"The Best Movie {nonZeroDigit}",
-                    Description = "This movie will bring you to tears",
-                    PostTime = new DateTime(2016, nonZeroDigit, nonZeroDigit)
+                    Title = WebUtility.HtmlDecode(title),
+                    Description = WebUtility.HtmlDecode(description),
+                    Url = url,
+                    Date = DateTime.Parse(date)
                 };
 
                 posts.Add(post);
             }
 
-            return posts;
+            return posts.ToList();
         }
 
         private static void Print(Post post)
         {
             Console.WriteLine(post.Title);
             Console.WriteLine(post.Description);
-            Console.WriteLine(post.PostTime);
-            Console.WriteLine(" ");
+            Console.WriteLine(post.Url);
+            Console.WriteLine(post.Date);
+            Console.WriteLine("-----------");
         }
     }
 }
