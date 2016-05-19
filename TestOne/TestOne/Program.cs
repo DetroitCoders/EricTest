@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestOne
 {
@@ -10,21 +7,32 @@ namespace TestOne
     {
         static void Main(string[] args)
         {
-            // Create List
-            List<Post> posts = new List<Post>();
+            var posts = GetPosts();
 
-            // Populate List
-            for (int i = 0; i < 10; i++)
+            posts.ForEach(Print);
+
+            Console.ReadKey();
+        }
+
+        private static List<Post> GetPosts()
+        {
+            var posts = new List<Post>();
+
+            for(var i = 0; i < 10; i++)
             {
-                Post j = new Post();
-                j.Title = "The Best Movie";
-                j.Description = "This movie will bring you to tears";
-                j.PostTime = DateTime.Now;
+                var nonZeroDigit = i + 1;
+
+                var j = new Post
+                {
+                    Title = $"The Best Movie {nonZeroDigit}",
+                    Description = "This movie will bring you to tears",
+                    PostTime = new DateTime(2016, nonZeroDigit, nonZeroDigit)
+                };
+
                 posts.Add(j);
             }
 
-            // Display List
-            posts.ForEach(Print);
+            return posts;
         }
 
         private static void Print(Post p)
