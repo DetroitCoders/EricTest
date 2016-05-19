@@ -22,24 +22,24 @@ namespace TestOne
             {
                 var nonZeroDigit = i + 1;
 
-                var j = new Post
+                var post = new Post
                 {
                     Title = $"The Best Movie {nonZeroDigit}",
                     Description = "This movie will bring you to tears",
                     PostTime = new DateTime(2016, nonZeroDigit, nonZeroDigit)
                 };
 
-                posts.Add(j);
+                posts.Add(post);
             }
 
             return posts;
         }
 
-        private static void Print(Post p)
+        private static void Print(Post post)
         {
-            Console.WriteLine(p.Title);
-            Console.WriteLine(p.Description);
-            Console.WriteLine(p.PostTime);
+            Console.WriteLine(post.Title);
+            Console.WriteLine(post.Description);
+            Console.WriteLine(post.PostTime);
             Console.WriteLine(" ");
         }
     }
